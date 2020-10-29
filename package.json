@@ -11,5 +11,8 @@
     "url": "yes"
   },
   "author": "Frederik Hansen",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "facebook-chat-api": "^1.8.0"
+  }
 }

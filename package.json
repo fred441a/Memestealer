@@ -1,0 +1,15 @@
+{
+  "name": "facebookmemething",
+  "version": "1.0.0",
+  "description": "A facebook bot that steals memes from a group chats an puts it in a pictureframe",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.j"
+  },
+  "repository": {
+    "type": "git",
+    "url": "yes"
+  },
+  "author": "Frederik Hansen",
+  "license": "ISC"
+}

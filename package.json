@@ -13,6 +13,7 @@
   "author": "Frederik Hansen",
   "license": "ISC",
   "dependencies": {
-    "facebook-chat-api": "^1.8.0"
+    "facebook-chat-api": "^1.8.0",
+    "open": "^7.3.0"
   }
 }

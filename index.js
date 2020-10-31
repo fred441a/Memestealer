@@ -1,32 +1,54 @@
 const fs = require("fs");
 const login = require("facebook-chat-api");
-const open = require("open");
-const express = require('express');
-const { measureMemory } = require("vm");
-const app = express()
-const cors = require("cors");
-const port = 3000
+
+//Electron
+const { app, BrowserWindow } = require('electron')
+var win;
+
 var ImageUrl;
 
 //https://generator.email/ntarek.kahrbat@asdbwegweq.xyz
 var credentials = { email: "ntarek.kahrbat@asdbwegweq.xyz", password: "k7Az3uwzp3kA5Jc" };
 
-app.use(cors());
 
-app.get('/URL', (req, res) => {
-    res.send(ImageUrl)
+//electron
+
+function createWindow() {
+    win = new BrowserWindow({
+        width: 800,
+        height: 600,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
+
+    win.loadFile('Index.html')
+    win.setFullScreen(true);
+}
+
+function ChangeImage() {
+    let code = "document.getElementById('Container').src = '" + ImageUrl + "'"
+    win.webContents.executeJavaScript(code);
+}
+
+
+app.whenReady().then(createWindow)
+
+app.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        app.quit()
+    }
 })
 
-app.get('/index', (req, res) => {
-    res.sendFile(__dirname + '/Index.html');
+app.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow()
+    }
 })
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
-})
 
-open("Localhost:3000/index");
 
+//facebook chat api
 if (fs.existsSync('appstate.json')) {
     console.log("the file is fucken 'ere mate");
     login({ appState: JSON.parse(fs.readFileSync('appstate.json', 'utf8')) }, (err, api) => {
@@ -48,13 +70,14 @@ if (fs.existsSync('appstate.json')) {
 
 function RunInAPI(api) {
     api.listenMqtt((err, message) => {
-        console.log(message.type);
-        console.log(message.attachments);
-        if (message.type == "message" && message.attachments) {
-            console.log(message.attachments[0].type);
-            if (message.attachments[0].type == "photo") {
-                ImageUrl = message.attachments[0].url;
-                console.log(message.attachments[0].url);
+        if (message.type == "message") {
+            if (message.attachments.length > 0) {
+                console.log(message.attachments[0].type);
+                if (message.attachments[0].type == "photo") {
+                    ImageUrl = message.attachments[0].url;
+                    console.log(message.attachments[0].url);
+                    ChangeImage();
+                }
             }
         }
     });

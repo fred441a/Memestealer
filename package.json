@@ -4,7 +4,8 @@
   "description": "A facebook bot that steals memes from a group chats an puts it in a pictureframe",
   "main": "index.js",
   "scripts": {
-    "test": "node index.js"
+    "test": "node index.js",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -13,9 +14,9 @@
   "author": "Frederik Hansen",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "facebook-chat-api": "github:Schmavery/facebook-chat-api",
-    "open": "^7.3.0"
+    "facebook-chat-api": "github:Schmavery/facebook-chat-api"
+  },
+  "devDependencies": {
+    "electron": "^10.1.5"
   }
 }
